@@ -85,10 +85,9 @@ FLAGS.release_type = parsed_args.release_type
 
 TELEPORT_PACKAGES_PER_BEAM_VERSION = {
     'live':
-        '/Users/yazhou/DataflowTemplates/target/google-cloud-teleport-java-0.1-SNAPSHOT.jar',
+        'target/google-cloud-teleport-java-0.1-SNAPSHOT.jar',
 }
-CFG_FILE = ('/Users/yazhou/Downloads/'
-            'template_release_info.prototext')
+CFG_FILE = ('template_release_info.prototext')
 JAVA_BIN_PATH = 'java'
 LATEST_FOLDER_NAME = 'latest'
 
@@ -259,10 +258,10 @@ def stage_template(base_destination, template):
   }
   for param in template.parameters:
     args[param.key] = param.value
-  root_dir = '/'
+  base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
   packages = [
       os.path.join(
-          root_dir,
+          base_dir,
           TELEPORT_PACKAGES_PER_BEAM_VERSION[template.beam_version_override])
   ]
   cmd = build_cmd(packages, main_class, args)
@@ -313,8 +312,8 @@ def main(unused_args):
   elif FLAGS.release_type == STAGING_RELEASE_NAME:
     base_destination = os.path.join(FLAGS.template_staging_bucket,
                                     FLAGS.candidate_name)
-    root_dir = '/'
-    config_path = os.path.join(root_dir, CFG_FILE)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(base_dir, CFG_FILE)
     config_categories = TemplateReleaseCategories()
     with open(config_path, 'r') as f:
       text_format.Merge(f.read(), config_categories)

@@ -5,3 +5,5 @@ jdk:
 
 script:
   - mvn clean compile test
+  - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
+  - release/install.sh

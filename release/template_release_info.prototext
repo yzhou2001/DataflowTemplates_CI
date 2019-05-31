@@ -1,0 +1,1388 @@
+categories {
+  category {
+    name: "get_started"
+    display_name: "Get Started"
+  }
+  templates {
+    name: "Word_Count"
+    display_name: "Word Count"
+    main_class: "com.google.cloud.teleport.templates.WordCount"
+    hidden: false
+    metadata {
+      name: "Word Count"
+      description: "An example pipeline that counts words in the input file."
+      parameters {
+        name: "inputFile"
+        label: "Input GCS file(s)"
+        help_text: "Path of the file pattern glob to read from. ex: gs://dataflow-samples/shakespeare/kinglear.txt"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "output"
+        label: "Output GCS file(s)"
+        help_text: "Path and filename prefix for writing output files. ex: gs://MyBucket/counts"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+}
+
+categories {
+  category {
+    name: "streaming_data_processing"
+    display_name: "Process Data Continuously (stream)"
+  }
+  templates {
+    name: "PubSub_Subscription_to_BigQuery"
+    display_name: "Cloud Pub/Sub Subscription to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.PubSubToBigQuery"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    parameters {
+      key: "useSubscription",
+      value:"true"
+    }
+    metadata {
+      name: "Cloud Pub/Sub Subscription to BigQuery"
+      description: "A pipeline that ingests a Cloud Pub/Sub stream of JSON-encoded messages from a Pub/Sub Subscription, performs a transform via a user defined JavaScript function, and writes to a pre-existing BigQuery table."
+      parameters {
+        name: "inputSubscription"
+        label: "Cloud Pub/Sub input subscription"
+        help_text: "Cloud Pub/Sub subscription to read the input from, in the format of 'projects/<project>/subscriptions/<subscription>'"
+        is_optional: false
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/subscriptions\\/[^\\n\\r\\/]+$"
+      }
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "GCS location of your JavaScript UDF"
+        help_text: "The full URL of your .js file. Example: gs://my_bucket/my_function.js"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "The name of the JavaScript function you wish to call as your UDF"
+        help_text: "The function name should only contain letters, digits and underscores. Example: 'transform' or 'transform_udf1'."
+        regexes: "[a-zA-Z0-9_]+"
+        is_optional: true
+      }
+      parameters {
+        name: "outputTableSpec"
+        label: "BigQuery output table"
+        help_text: "BigQuery table location (<project>:<dataset>.<table_name>) to write the output to. The table’s schema must match the input JSON objects."
+        is_optional: false
+        regexes: ".+:.+\\..+"
+      }
+      parameters {
+        name: "outputDeadletterTable"
+        label: "Table for messages failed to reach the output table(aka. Deadletter table)"
+        help_text: "Messages failed to reach the output table for all kind of reasons (e.g., mismatched schema, malformed json) are written to this table. It should be in the format of \"<project>:<dataset>.<table_name>\". If it doesn't exist, it will be created during pipeline execution. If not specified, \"<outputTableSpec>_error_records\" is used instead."
+        is_optional: true
+        regexes: ".+:.+\\..+"
+      }
+    }
+  }
+  templates {
+    name: "PubSub_to_BigQuery"
+    display_name: "Cloud Pub/Sub Topic to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.PubSubToBigQuery"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    parameters {
+      key: "useSubscription",
+      value:"false"
+    }
+    metadata {
+      name: "Cloud Pub/Sub Topic to BigQuery"
+      description: "A pipeline that ingests a Cloud Pub/Sub stream of JSON-encoded messages from a Pub/Sub Topic, performs a transform via a user defined JavaScript function, and writes to a pre-existing BigQuery table."
+      parameters {
+        name: "inputTopic"
+        label: "Cloud Pub/Sub input topic"
+        help_text: "Cloud Pub/Sub topic to read the input from, in the format of 'projects/<project>/topics/<topic>'"
+        is_optional: false
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+      }
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "GCS location of your JavaScript UDF"
+        help_text: "The full URL of your .js file. Example: gs://my_bucket/my_function.js"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "The name of the JavaScript function you wish to call as your UDF"
+        help_text: "The function name should only contain letters, digits and underscores. Example: 'transform' or 'transform_udf1'."
+        regexes: "[a-zA-Z0-9_]+"
+        is_optional: true
+      }
+      parameters {
+        name: "outputTableSpec"
+        label: "BigQuery output table"
+        help_text: "BigQuery table location (<project>:<dataset>.<table_name>) to write the output to. The table’s schema must match the input JSON objects."
+        is_optional: false
+        regexes: ".+:.+\\..+"
+      }
+      parameters {
+        name: "outputDeadletterTable"
+        label: "Table for messages failed to reach the output table(aka. Deadletter table)"
+        help_text: "Messages failed to reach the output table for all kind of reasons (e.g., mismatched schema, malformed json) are written to this table. It should be in the format of \"<project>:<dataset>.<table_name>\". If it doesn't exist, it will be created during pipeline execution. If not specified, \"<outputTableSpec>_error_records\" is used instead."
+        is_optional: true
+        regexes: ".+:.+\\..+"
+      }
+    }
+  }
+  templates {
+    name: "Cloud_PubSub_to_GCS_Text"
+    display_name: "Cloud Pub/Sub to Text Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.PubsubToText"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    metadata {
+      name: "Cloud Pub/Sub to GCS Text File"
+      description: "A pipeline that reads from a Pub/Sub topic and writes messages text files stored in GCS. Note that this pipeline assumes no newlines in the body of the Pub/Sub message and thus each message becomes a single line in the output file."
+      parameters {
+        name: "inputTopic",
+        label: "Input Cloud Pub/Sub topic",
+        help_text: "Cloud Pub/Sub topic to read the input from. The topic name should be in the format of projects/<project-id>/topics/<topic-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDirectory"
+        label: "Output Cloud Storage directory"
+        help_text: "Path and filename prefix for writing output files (ex: gs://bucket-name/path/). This value must end in a slash."
+        regexes: "^gs:\\/\\/[^\\n\\r]+\/$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputFilenamePrefix"
+        label: "Output file prefix"
+        help_text: "The prefix to place on each windowed file (ex: output-)."
+        is_optional: false
+      }
+      parameters {
+        name: "outputFilenameSuffix"
+        label: "Output file suffix"
+        help_text: "The suffix to place on each windowed file. Typically a file extension (.txt, .csv, etc.)."
+        is_optional: true
+      }
+      parameters {
+        name: "outputShardTemplate"
+        label: "The shard template"
+        help_text: "The shard template defines the unique/dynamic portion of each windowed file. Recommended to use the default (W-P-SS-of-NN). At runtime, 'W' is replaced with the window date range and 'P' is replaced with the pane info. Repeating sequences of the letters 'S' or 'N' (example: SSS-NNN) are replaced with the shard number and number of shards respectively. The pipeline assumes a single file output and thus will produce the text of '00-of-01' by default."
+        is_optional: true
+      }
+    }
+  }
+  templates {
+    name: "Cloud_PubSub_to_Avro"
+    display_name: "Cloud Pub/Sub to Avro Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.PubsubToAvro"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    metadata {
+      name: "Cloud Pub/Sub to Avro"
+      description: "A pipeline that reads from a Pub/Sub subscription and writes Windowed Avro Files at the specified output directory"
+
+      parameters {
+        name: "inputTopic"
+        label: "Input Cloud Pub/Sub Topic"
+        help_text: "Cloud Pub/Sub Topic to subscribe for message consumption. The topic name should be in the format of projects/<project-id>/topics/<topic-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDirectory"
+        label: "Output Directory inside GCS"
+        help_text: "Output Directory where output Avro Files will be archived. Please add / at the end. For eg: gs://example-bucket/example-directory/"
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputFilenamePrefix"
+        label: "Output Filename Prefix for the output Avro Files"
+        help_text: "Output Filename Prefix for the Avro Files. Default value is output when this parameter is not specified."
+        regexes: "^[a-zA-Z]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "outputFilenameSuffix"
+        label: "Output Filename Suffix for the output Avro Files"
+        help_text: "Output Filename Suffix for the Avro Files. Default is not to have suffix when this parameter is not specified."
+        regexes: "^[\\.a-zA-Z]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "outputShardTemplate"
+        label: "Output Shard Template format for the output Avro Files"
+        help_text: "The shard template of the output file. Specified as repeating sequences of the letters 'S' or 'N' (example: SSS-NNN). These are replaced with the shard number, or number of shards respectively. Default Template Format is 'W-P-SS-of-NN' when this parameter is not specified."
+        regexes: "^W-P-(S){1,}-of-(N){1,}$"
+        is_optional: true
+      }
+      parameters {
+        name: "numShards"
+        label: "Maximum Number of Output Shards"
+        help_text: "The maximum number of output shards produced when writing.Default maximum number of Shards is 1"
+        regexes: "^[1-9]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "windowDuration"
+        label: "Window Duration for Windowed Avro Files Creation"
+        help_text: "The window duration in which data will be written. Defaults to 5m. Allowed formats are: Ns (for seconds, example: 5s), Nm (for minutes, example: 12m), Nh (for hours, example: 2h)."
+        regexes: "^([1-9]|1[0-9]|2[0-4])h$|^(([1-9]|[1-5][0-9]|60)(s|m))$"
+        is_optional: true
+      }
+      parameters {
+        name: "avroTempDirectory"
+        label: "The Avro Write Temporary Directory. Must end with \"/\"."
+        help_text: "Directory for temporary Avro Files. Please add / at the end. For eg: gs://example-bucket/example-directory/"
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Cloud_PubSub_to_Cloud_PubSub"
+    display_name: "Cloud Pub/Sub to Cloud Pub/Sub"
+    main_class: "com.google.cloud.teleport.templates.PubsubToPubsub"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    metadata {
+      name: "Cloud Pub/Sub to Cloud Pub/Sub"
+      description: "A pipeline that reads from a Pub/Sub subscription and writes to another Pub/Sub topic."
+
+      parameters {
+        name: "inputSubscription"
+        label: "Input Cloud Pub/Sub subscription"
+        help_text: "Cloud Pub/Sub subscription to read the input from. The subscription name should be in the format of projects/<project-id>/subscriptions/<subscription-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/subscriptions\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTopic"
+        label: "Output Cloud Pub/Sub topic"
+        help_text: "Cloud Pub/Sub topic to write the output to. The topic name should be in the format of projects/<project-id>/topics/<topic-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "filterKey"
+        label: "Event filter key"
+        help_text: "Filter events based on an optional attribute key. No filters are applied if a filterKey is not specified."
+        regexes: "^[a-z_A-Z0-9\\/]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "filterValue"
+        label: "Event filter value"
+        help_text: "Filter attribute value to use in case a filterKey is provided. A null filterValue is used by default."
+        regexes: "^[a-z_A-Z0-9\\/]+$"
+        is_optional: true
+      }
+    }
+  }
+  templates {
+    name: "Stream_GCS_Text_to_Cloud_PubSub"
+    display_name: "Text Files on Cloud Storage to Cloud Pub/Sub"
+    main_class: "com.google.cloud.teleport.templates.TextToPubsubStream"
+    hidden: false
+    metadata {
+      name: "GCS Text File to Cloud Pub/Sub (Stream)"
+      description: "A pipeline that polls every 10 seconds for new text files stored in GCS and outputs each line to a Pub/Sub topic."
+      parameters {
+        name: "inputFilePattern"
+        label: "Input Cloud Storage File(s)"
+        help_text: "Path of the file pattern glob to read from. ex: gs://bucket-name/path/*.csv"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTopic"
+        label: "Output Pub/Sub Topic"
+        help_text: "The name of the topic which data should be published to. The name should be in the format of projects/<project-id>/topics/<topic-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Stream_GCS_Text_to_BigQuery"
+    display_name: "Text Files on Cloud Storage to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.TextToBigQueryStreaming"
+    hidden: false
+    metadata {
+      name: "GCS Text to BigQuery (Stream)"
+      description: "A streaming pipeline that can read text files stored in GCS, perform a transform via a user defined JavaScript function, and stream the results into BigQuery. This pipeline requires a JavaScript function and a JSON representation of the BigQuery TableSchema."
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "GCS location of your JavaScript UDF"
+        help_text: "The full URL of your .js file. Example: gs://my_bucket/my_function.js"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "JSONPath"
+        label: "GCS location of your BigQuery schema file, described as a JSON"
+        help_text: "Example:\n{\n\"BigQuery Schema\": [\n{\n\"name\": \"location\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"name\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"age\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"color\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"coffee\",\n\"type\": \"STRING\"\n}\n]\n}"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "The name of the JavaScript function you wish to call as your UDF"
+        help_text: "The function name should only contain letters, digits and underscores. Example: 'transform' or 'transform_udf1'."
+        regexes: "[a-zA-Z0-9_]+"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTable"
+        label: "The fully qualified BigQuery table"
+        help_text: "Example: my-project:dataset.table"
+        regexes: ".+:.+\\..+"
+        is_optional: false
+      }
+      parameters {
+        name: "inputFilePattern"
+        label: "The GCS location of the text you'd like to process"
+        help_text: "Example: gs://my-bucket/my-files/text.txt"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "bigQueryLoadingTemporaryDirectory"
+        label: "Temporary directory for BigQuery loading process"
+        help_text: "Example: gs://my-bucket/my-files/temp_dir"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDeadletterTable"
+        label: "Table for messages failed to reach the output table(aka. Deadletter table)"
+        help_text: "Messages failed to reach the output table for all kind of reasons (e.g., mismatched schema, malformed json) are written to this table. It should be in the format of \"<project>:<dataset>.<table_name>\". If it doesn't exist, it will be created during pipeline execution. If not specified, \"<outputTableSpec>_error_records\" is used instead."
+        is_optional: true
+        regexes: ".+:.+\\..+"
+      }
+    }
+  }
+  templates {
+    name: "Kafka_to_BigQuery"
+    display_name: "Kafka to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.KafkaToBigQuery"
+    hidden: true
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "3"
+    }
+    metadata {
+      name: "Kafka to BigQuery"
+      description: "A streaming pipeline which ingests data in JSON format from Kafka, performs a transform via a user defined JavaScript function, and writes to a pre-existing BigQuery table."
+      parameters {
+        name: "inputTopic"
+        label: "Kafka topic to read the input from"
+        help_text: "Kafka topic to read the input from. Example: test_topic"
+        is_optional: false
+        regexes: "[a-zA-Z0-9._-]+"
+      }
+      parameters {
+        name: "bootstrapServers"
+        label: "Kafka Bootstrap Server list"
+        help_text: "Kafka Bootstrap Server list, separated by commas. Example: localhost:9092,127.0.0.1:9093"
+        is_optional: false
+        regexes: "[a-zA-Z0-9._-:]+"
+      }
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "GCS location of your JavaScript UDF"
+        help_text: "The full URL of your .js file. Example: gs://my_bucket/my_function.js"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "The name of the JavaScript function you wish to call as your UDF"
+        help_text: "The function name should only contain letters, digits and underscores. Example: 'transform' or 'transform_udf1'."
+        regexes: "[a-zA-Z0-9_]+"
+        is_optional: true
+      }
+      parameters {
+        name: "outputTableSpec"
+        label: "BigQuery output table"
+        help_text: "BigQuery table location (<project>:<dataset>.<table_name>) to write the output to. The table’s schema must match the input JSON objects."
+        is_optional: false
+        regexes: ".+:.+\\..+"
+      }
+      parameters {
+        name: "outputDeadletterTable"
+        label: "Table for messages failed to reach the output table(aka. Deadletter table)"
+        help_text: "Messages failed to reach the output table for all kind of reasons (e.g., mismatched schema, malformed json) are written to this table. It should be in the format of \"<project>:<dataset>.<table_name>\". If it doesn't exist, it will be created during pipeline execution. If not specified, \"<outputTableSpec>_error_records\" is used instead."
+        is_optional: true
+        regexes: ".+:.+\\..+"
+      }
+    }
+  }
+  templates {
+    name: "Stream_DLP_GCS_Text_to_BigQuery"
+    display_name: "Data Masking/Tokenization using Cloud DLP from GCS to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.DLPTextToBigQueryStreaming"
+    hidden: false
+    parameters {
+      key: "autoscalingAlgorithm",
+      value: "THROUGHPUT_BASED"
+    }
+    parameters {
+      key: "maxNumWorkers",
+      value: "10"
+    }
+     parameters {
+      key: "numWorkers",
+      value: "5"
+    }
+    metadata {
+      name: "Cloud DLP Data Masking/Tokenization from GCS to BigQuery"
+      description: "A pipeline that reads CSV files from Google Cloud Storage, uses Cloud DLP API to mask and tokenize data based on the DLP templates provided and stores output in BigQuery"
+      parameters {
+        name: "inputFilePattern"
+        label: "The GCS location of the CSV files you'd like to process"
+        help_text: "Example: gs://my-bucket/my-files/*.csv"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "datasetName"
+        label: "BigQuery Dataset to be used. Dataset must exist prior to execution"
+        help_text: "Example: pii_dataset"
+        regexes: "^[^.]*$"
+        is_optional: false
+      }
+      parameters {
+        name: "batchSize"
+        label: "Batch size contents (number of rows) to optimize DLP API call. Total size of the rows must not exceed 512 KB. Default batch size is set to 100"
+        help_text: "Example:1000"
+        regexes: "^[1-9]+[0-9]*$"
+        is_optional: true
+      }
+      parameters {
+        name: "dlpProjectId"
+        label: "DLP project id to be used for data masking/tokenization"
+        help_text: "Example:my-dlp-project"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "deidentifyTemplateName"
+        label: "DLP Deidentify Template to deidentify contents"
+        help_text: "Example: projects/my_project_id/deidentifyTemplates/generated_template_id"
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/deidentifyTemplates\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "inspectTemplateName"
+        label: "DLP Inspect Template to inspect contents"
+        help_text: "Example: projects/my_project_id/inspectTemplates/generated_template_id"
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/inspectTemplates\\/[^\\n\\r\\/]+$"
+        is_optional: true
+      }
+    }
+ }
+}
+
+categories {
+  category {
+    name: "batch_data_processing"
+    display_name: "Process Data in Bulk (batch)"
+  }
+  templates {
+    name: "GCS_Text_to_Cloud_PubSub"
+    display_name: "Text Files on Cloud Storage to Cloud Pub/Sub"
+    main_class: "com.google.cloud.teleport.templates.TextToPubsub"
+    hidden: false
+    metadata {
+      name: "GCS Text File to Cloud Pub/Sub (Batch)"
+      description: "A pipeline that reads a text file stored in GCS and outputs each line to a Pub/Sub topic."
+      parameters {
+        name: "inputFilePattern"
+        label: "Input Cloud Storage File(s)"
+        help_text: "Path of the file pattern glob to read from. ex: gs://bucket-name/path/*.csv"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTopic"
+        label: "Output Pub/Sub Topic"
+        help_text: "The name of the topic which data should be published to. The name should be in the format of projects/<project-id>/topics/<topic-name>."
+        regexes: "^projects\\/[^\\n\\r\\/]+\\/topics\\/[^\\n\\r\\/]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "GCS_Text_to_BigQuery"
+    display_name: "Text Files on Cloud Storage to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.TextIOToBigQuery"
+    hidden: false
+    metadata {
+      name: "GCS Text to BigQuery"
+      description: "A pipeline that can read text files stored in GCS, perform a transform via a user defined JavaScript function, and load the results into BigQuery. This pipeline requires a JavaScript function and a JSON describing the resulting BigQuery schema."
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "GCS location of your JavaScript UDF"
+        help_text: "The full URL of your .js file. Example: gs://my_bucket/my_function.js"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "JSONPath"
+        label: "GCS location of your BigQuery schema file, described as a JSON"
+        help_text: "Example:\n{\n\"BigQuery Schema\": [\n{\n\"name\": \"location\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"name\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"age\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"color\",\n\"type\": \"STRING\"\n},\n{\n\"name\": \"coffee\",\n\"type\": \"STRING\"\n}\n]\n}"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "The name of the JavaScript function you wish to call as your UDF"
+        help_text: "The function name should only contain letters, digits and underscores. Example: 'transform' or 'transform_udf1'."
+        regexes: "[a-zA-Z0-9_]+"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTable"
+        label: "The fully qualified BigQuery table"
+        help_text: "Example: my-project:dataset.table"
+        regexes: ".+:.+\\..+"
+        is_optional: false
+      }
+      parameters {
+        name: "inputFilePattern"
+        label: "The GCS location of the text you'd like to process"
+        help_text: "Example: gs://my-bucket/my-files/text.txt"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "bigQueryLoadingTemporaryDirectory"
+        label: "Temporary directory for BigQuery loading process"
+        help_text: "Example: gs://my-bucket/my-files/temp_dir"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Datastore_to_GCS_Text"
+    display_name: "Cloud Datastore to Text Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.DatastoreToText"
+    hidden: false
+    metadata {
+      name: "Datastore to Text File"
+      description: "A pipeline which reads in Datastore Entities and writes them to Google Cloud Storage as text files."
+
+      # DatastoreReadOptions
+      parameters {
+        name: "datastoreReadGqlQuery"
+        label: "GQL Query"
+        help_text: "GQL Query which specifies what entities to grab. e.g: \"SELECT * FROM MyKind\""
+        regexes: "^.+$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreReadProjectId"
+        label: "Read data from Datastore Project Id of"
+        help_text: "The GCP Project Id of the Cloud Datastore instance that you want to read data from"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreReadNamespace"
+        label: "Read data from Datastore Namespace of"
+        help_text: "[Optional] Namespace of requested Entities. Set as \"\" for default namespace"
+        regexes: "[0-9A-Za-z._-]{0,100}"
+        is_optional: true
+      }
+
+      # JavascriptTextTransformerOptions
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "JavaScript UDF GCS path"
+        help_text: "[Optional] A GCS path which contains all your JavaScript code. e.g: \"gs://mybucket/mytransforms/*.js\". If you don't want to use a UDF leave this field blank."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "JavaScript UDF function name"
+        help_text: "[Optional] Name of the Function to be called. If you have the JavaScript code of: \"function myTransform(inJson) { ...dostuff...}\" then your function name is \"myTransform\". If you don't want to use a UDF leave this field blank."
+        regexes: "^.+$"
+        is_optional: true
+      }
+
+      # FilesystemWriteOptions
+      parameters {
+        name: "textWritePrefix"
+        label: "GCS path of where to write data"
+        help_text: "GCS Path Prefix as to where data should be written. e.g: \"gs://mybucket/somefolder/\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "GCS_Text_to_Datastore"
+    display_name: "Text Files on Cloud Storage to Cloud Datastore"
+    main_class: "com.google.cloud.teleport.templates.TextToDatastore"
+    hidden: false
+    metadata {
+      name: "GCS Text to Datastore"
+      description: "Dataflow template which reads from a Text Source and writes JSON encoded Entities into Datastore. The Json is expected to be in the format of https://cloud.google.com/datastore/docs/reference/rest/v1/Entity ."
+
+      # FilesystemReadOptions
+      parameters {
+        name: "textReadPattern"
+        label: "Input file pattern for input text files"
+        help_text: "Pattern to where text data files live, ex: gs://mybucket/somepath/*.json"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+
+      # JavascriptTextTransformerOptions
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "JavaScript UDF GCS path"
+        help_text: "[Optional] A GCS path which contains all your JavaScript code. e.g: \"gs://mybucket/mytransforms/*.js\". If you don't want to use a UDF leave this field blank."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "JavaScript UDF function name"
+        help_text: "[Optional] Name of the Function to be called. If you have the JavaScript code of: \"function myTransform(inJson) { ...dostuff...}\" then your function name is \"myTransform\". If you don't want to use a UDF leave this field blank."
+        regexes: "^.+$"
+        is_optional: true
+      }
+
+      # DatastoreWriteOptions
+      parameters {
+        name: "datastoreWriteProjectId"
+        label: "Output GCP project identifier"
+        help_text: "Google Cloud Platform project id where to write the Datastore entities"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+
+      # ErrorWriteOptions
+      parameters {
+        name: "errorWritePath"
+        label: "Pattern of where to write errors"
+        help_text: "Example: gs://mybucket/somepath/errors.txt"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Cloud_BigQuery_to_Cloud_Datastore"
+    display_name: "BigQuery to Cloud Datastore"
+    main_class: "com.google.cloud.teleport.templates.BigQueryToDatastore"
+    hidden: true
+    metadata {
+      name: "Cloud BigQuery to Cloud Datastore"
+      description: "A pipeline that reads rows from BigQuery and writes entities to Datastore. (NOTE: Nested and repeated BigQuery columns are currently not supported.)"
+      parameters {
+        name: "readQuery"
+        label: "Input SQL query"
+        help_text: "SQL query in standard SQL to pull data from BigQuery"
+        is_optional: false
+      }
+      parameters {
+        name: "readIdColumn"
+        label: "Unique identifier column"
+        help_text: "Name of the BigQuery column storing the unique identifier of the row"
+        regexes: "[A-Za-z_][A-Za-z_0-9]*"
+        is_optional: false
+      }
+      parameters {
+        name: "invalidOutputPath"
+        label: "Invalid rows output path"
+        help_text: "Google Cloud Storage path where to write BigQuery rows that cannot be converted to Datastore entities"
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreWriteProjectId"
+        label: "Output GCP project identifier"
+        help_text: "Google Cloud Platform project id where to write the Datastore entities"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreWriteEntityKind"
+        label: "Datastore entity kind"
+        help_text: "Datastore kind under which enntities will be written in the output GCP project"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreWriteNamespace"
+        label: "Datastore namespace"
+        help_text: "Datastore namespace under which enntities will be written in the output GCP project"
+        is_optional: true
+      }
+      parameters {
+        name: "errorWritePath"
+        label: "Duplicate rows output path"
+        help_text: "Google Cloud Storage path where to write duplicate BigQuery rows based on the unique identifier column"
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "Spanner_to_GCS_Text"
+    display_name: "Cloud Spanner to Text Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.SpannerToText"
+    hidden: false
+    metadata {
+      name: "Cloud Spanner to CSV Text File"
+      description: "A pipeline which reads in Cloud Spanner table and writes it to Google Cloud Storage as CSV text files."
+
+      parameters {
+        name: "spannerProjectId"
+        label: "Read data from Cloud Spanner Project Id of"
+        help_text: "The GCP Project Id of the Cloud Spanner database that you want to read data from"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "spannerDatabaseId"
+        label: "Read data from Cloud Spanner Database of"
+        help_text: "Database of requested table."
+        regexes: ".+"
+        is_optional: false
+      }
+      parameters {
+        name: "spannerInstanceId"
+        label: "Read data from Cloud Spanner Instance of"
+        help_text: "Instance of requested table."
+        regexes: ".+"
+        is_optional: false
+      }
+      parameters {
+        name: "spannerTable"
+        label: "Table"
+        help_text: "Table to export"
+        regexes: "^.+$"
+        is_optional: false
+      }
+
+      # JavascriptTextTransformerOptions
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "JavaScript UDF GCS path"
+        help_text: "[Optional] A GCS path which contains all your JavaScript code. e.g: \"gs://mybucket/mytransforms/*.js\". If you don't want to use a UDF leave this field blank."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "JavaScript UDF function name"
+        help_text: "[Optional] Name of the Function to be called. If you have the JavaScript code of: \"function myTransform(inJson) { ...dostuff...}\" then your function name is \"myTransform\". If you don't want to use a UDF leave this field blank."
+        regexes: "^.+$"
+        is_optional: true
+      }
+
+      # FilesystemWriteOptions
+      parameters {
+        name: "textWritePrefix"
+        label: "GCS path of where to write data"
+        help_text: "GCS Path Prefix as to where data should be written. e.g: \"gs://mybucket/somefolder/\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "Cloud_Spanner_to_GCS_Avro"
+    display_name: "Cloud Spanner to Avro Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.spanner.ExportPipeline"
+    hidden: false
+    parameters {
+      key: "waitUntilFinish"
+      value: "false"
+    }
+
+    metadata {
+      name: "Cloud Spanner to Avro Files"
+      description: "A pipeline to export a Cloud Spanner database to a set of Avro files in GCS."
+
+      parameters {
+        name: "instanceId"
+        label: "Cloud Spanner instance id"
+        help_text: "The instance id of the Cloud Spanner database that you want to export."
+        regexes: "[a-z][a-z0-9\\-]*[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "databaseId"
+        label: "Cloud Spanner database id"
+        help_text: "The database id of the Cloud Spanner database that you want to export."
+        regexes: "[a-z][a-z0-9_\\-]*[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDir"
+        label: "Cloud storage output directory"
+        help_text: "The GCS path where the Avro files should be exported to. A new directory will be created under this path that contains the export."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "GCS_Avro_to_Cloud_Spanner"
+    display_name: "Avro Files on Cloud Storage to Cloud Spanner"
+    main_class: "com.google.cloud.teleport.spanner.ImportPipeline"
+    hidden: false
+    parameters {
+      key: "waitUntilFinish"
+      value: "false"
+    }
+
+    metadata {
+      name: "Avro Files to Cloud Spanner"
+      description: "A pipeline to import a Cloud Spanner database from a set of Avro files in GCS."
+
+      parameters {
+        name: "instanceId"
+        label: "Cloud Spanner instance id"
+        help_text: "The instance id of the Cloud Spanner database that you want to import to."
+        regexes: "^[a-z0-9\\-]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "databaseId"
+        label: "Cloud Spanner database id"
+        help_text: "The database id of the Cloud Spanner database that you want to import into (must already exist)."
+        regexes: "^[a-z_0-9\\-]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "inputDir"
+        label: "Cloud storage input directory"
+        help_text: "The GCS path where the Avro files should be imported from."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Cloud_Bigtable_to_GCS_SequenceFile"
+    display_name: "Cloud BigTable to SequenceFile Files on Cloud Storage"
+    main_class: "com.google.cloud.bigtable.beam.sequencefiles.ExportJob"
+    hidden: false
+    parameters {
+      key: "wait"
+      value: "false"
+    }
+    metadata {
+      name: "Cloud Bigtable to SequenceFile"
+      description: "A pipeline which reads in Cloud Bigtable table and writes it to Google Cloud Storage in SequenceFile format."
+
+      parameters {
+        name: "bigtableProject"
+        label: "Project ID"
+        help_text: "The ID of the GCP project of the Cloud Bigtable instance that you want to read data from"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableInstanceId"
+        label: "Instance ID"
+        help_text: "The ID of the Cloud Bigtable instance that contains the table"
+        regexes: "[a-z][a-z0-9\\-]+[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableTableId"
+        label: "Table ID"
+        help_text: "The ID of the Cloud Bigtable table to export"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableAppProfileId"
+        label: "Application profile ID"
+        help_text: "The ID of the Cloud Bigtable application profile to be used for the export"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: true
+      }
+      parameters {
+        name: "destinationPath"
+        label: "Destination path"
+        help_text: "GCS path where data should be written. For example, \"gs://mybucket/somefolder/\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+      parameters {
+        name: "filenamePrefix"
+        label: "SequenceFile prefix"
+        help_text: "The prefix of the SequenceFile file name. For example, \"output-\""
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "GCS_SequenceFile_to_Cloud_Bigtable"
+    display_name: "SequenceFile Files on Cloud Storage to Cloud BigTable"
+    main_class: "com.google.cloud.bigtable.beam.sequencefiles.ImportJob"
+    hidden: false
+    parameters {
+      key: "wait"
+      value: "false"
+    }
+    metadata {
+      name: "SequenceFile to Cloud Bigtable"
+      description: "A pipeline which reads data from SequenceFile in Google Cloud Storage and writes it to Cloud Bigtable table."
+
+      parameters {
+        name: "bigtableProject"
+        label: "Project ID"
+        help_text: "The ID of the GCP project of the Cloud Bigtable instance that you want to write data to"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableInstanceId"
+        label: "Instance ID"
+        help_text: "The ID of the Cloud Bigtable instance that contains the table"
+        regexes: "[a-z][a-z0-9\\-]+[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableTableId"
+        label: "Table ID"
+        help_text: "The ID of the Cloud Bigtable table to import"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableAppProfileId"
+        label: "Application profile ID"
+        help_text: "The ID of the Cloud Bigtable application profile to be used for the import"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: true
+      }
+      parameters {
+        name: "sourcePattern"
+        label: "Source path pattern"
+        help_text: "GCS path pattern where data is located. For example, \"gs://mybucket/somefolder/prefix*\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+
+ templates {
+    name: "Cloud_Bigtable_to_GCS_Avro"
+    display_name: "Cloud Bigtable to Avro Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.bigtable.BigtableToAvro"
+    hidden: false
+    metadata {
+      name: "Cloud Bigtable to Avro in GCS"
+      description: "A pipeline which reads in Cloud Bigtable table and writes it to Google Cloud Storage in Avro format."
+
+      parameters {
+        name: "bigtableProjectId"
+        label: "Project ID"
+        help_text: "The ID of the GCP project of the Cloud Bigtable instance that you want to read data from"
+        regexes: "[a-z0-9\\-\\.\\:]+"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableInstanceId"
+        label: "Instance ID"
+        help_text: "The ID of the Cloud Bigtable instance that contains the table"
+        regexes: "[a-z][a-z0-9\\-]+[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableTableId"
+        label: "Table ID"
+        help_text: "The ID of the Cloud Bigtable table to export"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDirectory"
+        label: "Output directory"
+        help_text: "GCS path where data should be written. For example, \"gs://mybucket/somefolder/\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/$"
+        is_optional: false
+      }
+      parameters {
+        name: "filenamePrefix"
+        label: "Avro file prefix"
+        help_text: "The prefix of the Avro file name. For example, \"table1-\""
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "GCS_Avro_to_Cloud_Bigtable"
+    display_name: "Avro Files on Cloud Storage to Cloud Bigtable"
+    main_class: "com.google.cloud.teleport.bigtable.AvroToBigtable"
+    hidden: false
+    metadata {
+      name: "Avro in GCS to Cloud Bigtable"
+      description: "A pipeline which reads data from Avro files in Google Cloud Storage and writes it to Cloud Bigtable table."
+
+      parameters {
+        name: "bigtableProjectId"
+        label: "Project ID"
+        help_text: "The ID of the GCP project of the Cloud Bigtable instance that you want to write data to"
+        regexes: "[a-z0-9\\-\\.\\:]+"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableInstanceId"
+        label: "Instance ID"
+        help_text: "The ID of the Cloud Bigtable instance that contains the table"
+        regexes: "[a-z][a-z0-9\\-]+[a-z0-9]"
+        is_optional: false
+      }
+      parameters {
+        name: "bigtableTableId"
+        label: "Table ID"
+        help_text: "The ID of the Cloud Bigtable table to import"
+        regexes: "[_a-zA-Z0-9][-_.a-zA-Z0-9]*"
+        is_optional: false
+      }
+      parameters {
+        name: "inputFilePattern"
+        label: "Input file pattern"
+        help_text: "GCS path pattern where data is located. For example, \"gs://mybucket/somefolder/table1*.avro\""
+        regexes: "^gs:\\/\\/[^\\n\\r]+\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+
+  templates {
+    name: "Jdbc_to_BigQuery"
+    display_name: "Jdbc to BigQuery"
+    main_class: "com.google.cloud.teleport.templates.JdbcToBigQuery"
+    hidden: false
+    metadata {
+      name: "Jdbc to BigQuery"
+      description: "A pipeline that reads from a Jdbc source and writes to a BigQuery table."
+
+      parameters {
+        name: "connectionURL"
+        label: "Jdbc connection URL string"
+        help_text: "Url connection string to connect to the Jdbc source. E.g. jdbc:mysql://some-host:3306/sampledb"
+        regexes: "^jdbc:[a-zA-Z0-9/:@.?_+!*=&-]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "driverClassName"
+        label: "Jdbc driver class name"
+        help_text: "Jdbc driver class name. E.g. com.mysql.jdbc.Driver"
+        regexes: "^.+$"
+        is_optional: false
+      }
+      parameters {
+        name: "query"
+        label: "Jdbc source SQL query."
+        help_text: "Query to be executed on the source to extract the data. E.g. select * from sampledb.sample_table"
+        regexes: "^.+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputTable"
+        label: "BigQuery output table"
+        help_text: "BigQuery table location (<project>:<dataset>.<table_name>) to write the output to. The table’s schema must match the source query schema."
+        regexes: ".+:.+\\..+"
+        is_optional: false
+      }
+      parameters {
+        name: "driverJars"
+        label: "GCS paths for Jdbc drivers"
+        help_text: "Comma separate GCS paths for Jdbc drivers. E.g. gs://<some-bucket>/driver_jar1.jar,gs://<some_bucket>/driver_jar2.jar"
+        regexes: "^.+$"
+        is_optional: false
+      }
+      parameters {
+        name: "bigQueryLoadingTemporaryDirectory"
+        label: "Temporary directory for BigQuery loading process"
+        help_text: "Example: gs://my-bucket/my-files/temp_dir"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "connectionProperties"
+        label: "Jdbc connection property string"
+        help_text: "Properties string to use for the Jdbc connection. E.g. unicode=true&characterEncoding=UTF-8"
+        regexes: "^[a-zA-Z0-9_;!*&=@#-]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "username"
+        label: "Jdbc connection username"
+        help_text: "User name to be used for the Jdbc connection"
+        regexes: "^.+$"
+        is_optional: true
+      }
+      parameters {
+        name: "password"
+        label: "Jdbc connection password"
+        help_text: "Password to be used for the Jdbc connection"
+        regexes: "^.+$"
+        is_optional: true
+      }
+    }
+  }
+}
+categories {
+  category {
+    name: "utilities"
+    display_name: "Utilities"
+  }
+  templates {
+    name: "Bulk_Compress_GCS_Files"
+    display_name: "Bulk Compress Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.BulkCompressor"
+    hidden: false
+    metadata {
+      name: "Bulk Compress GCS Files"
+      description: "A pipeline which compresses files on GCS to a specified location. Supported formats: bzip2, deflate, gzip, and zip."
+      parameters {
+        name: "inputFilePattern"
+        label: "The input filepattern to read from"
+        help_text: "The input filepattern to read from (e.g., gs://bucket-name/uncompressed/*.txt)"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDirectory"
+        label: "The output location to write to"
+        help_text: "The output location to write to (e.g., gs://bucket-name/compressed)."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputFailureFile"
+        label: "The output file for failures during the compression process"
+        help_text: "The output file to write failures to during the compression process (e.g. gs://bucket-name/compression/failed.csv). If there are no failures, the file will still be created but will be empty. The contents will be one line for each file which failed compression in CSV format (Filename, Error)."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "compression"
+        label: "The compression algorithm used to compress the matched files."
+        help_text: "The compression algorithm used to compress the matched files. Must be one of: GZIP, BZIP2, DEFLATE."
+        regexes: "(GZIP|BZIP2|DEFLATE)"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Bulk_Decompress_GCS_Files"
+    display_name: "Bulk Decompress Files on Cloud Storage"
+    main_class: "com.google.cloud.teleport.templates.BulkDecompressor"
+    hidden: false
+    metadata {
+      name: "Bulk Decompress GCS Files"
+      description: "A pipeline which decompresses files on GCS to a specified location. Supported formats: Bzip2, deflate, gzip and zip."
+      parameters {
+        name: "inputFilePattern"
+        label: "The input filepattern to read from"
+        help_text: "The input filepattern to read from (e.g., gs://bucket-name/compressed/*.gz)"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputDirectory"
+        label: "The output location to write to"
+        help_text: "The output location to write to (e.g., gs://bucket-name/decompressed)."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "outputFailureFile"
+        label: "The output file for failures during the decompression process"
+        help_text: "The output file to write failures to during the decompression process (e.g. gs://bucket-name/decompressed/failed.csv). If there are no failures, the file will still be created but will be empty. The contents will be one line for each file which failed decompression in CSV format (Filename, Error)."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+    }
+  }
+  templates {
+    name: "Datastore_to_Datastore_Delete"
+    display_name: "Bulk Delete Entities in Cloud Datastore"
+    main_class: "com.google.cloud.teleport.templates.DatastoreToDatastoreDelete"
+    hidden: false
+    metadata {
+      name: "Cloud Datastore Delete"
+      description: "A pipeline which reads in Entities (via a GQL query) from Datastore, optionally passes in the JSON encoded Entities to a JavaScript UDF, and then deletes all matching Entities in the selected target project."
+
+      # DatastoreReadOptions
+      parameters {
+        name: "datastoreReadGqlQuery"
+        label: "GQL Query"
+        help_text: "GQL Query which specifies which entities to grab. e.g: \"SELECT * FROM MyKind\""
+        regexes: "^.+$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreReadProjectId"
+        label: "Read data from Datastore Project Id of"
+        help_text: "The GCP Project Id of the Cloud Datastore instance that you want to read data from"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+      parameters {
+        name: "datastoreReadNamespace"
+        label: "Read data from Datastore Namespace of"
+        help_text: "Namespace of requested Entities. Set as \"\" for default namespace"
+        regexes: "[0-9A-Za-z._-]{0,100}"
+        is_optional: true
+      }
+
+      # DatastoreDeleteOptions
+      parameters {
+        name: "datastoreDeleteProjectId"
+        label: "Delete all matching entities from the GQL Query present in this Datastore Project Id of"
+        help_text: "GCP Project Id of where to delete the datastore entities"
+        regexes: "^[a-z0-9][a-z0-9\\.:-]{5,29}$"
+        is_optional: false
+      }
+
+      # JavascriptTextTransformerOptions
+      parameters {
+        name: "javascriptTextTransformGcsPath"
+        label: "JavaScript UDF GCS path"
+        help_text: "[Optional] A GCS path which contains all your JavaScript code. e.g: \"gs://mybucket/mytransforms/*.js\". If you don't want to use a UDF leave this field blank."
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: true
+      }
+      parameters {
+        name: "javascriptTextTransformFunctionName"
+        label: "JavaScript UDF function name"
+        help_text: "[Optional] Name of the Function to be called. If this function returns a value of undefined or null for a given Datastore Entity, then that Entity will not be deleted. If you have the JavaScript code of: \"function myTransform(inJson) { ...dostuff...}\" then your function name is \"myTransform\". If you don't want to use a UDF leave this field blank."
+        regexes: "^.+$"
+        is_optional: true
+      }
+    }
+  }
+  templates {
+    name: "GCS_Text_to_Cloud_Spanner"
+    display_name: "Text Files on Cloud Storage to Cloud Spanner"
+    main_class: "com.google.cloud.teleport.spanner.TextImportPipeline"
+    hidden: true
+    parameters {
+      key: "waitUntilFinish"
+      value: "false"
+    }
+
+    metadata {
+      name: "Text Files to Cloud Spanner"
+      description: "A pipeline to import a Cloud Spanner database from a set of Text (CSV) files in GCS."
+
+      parameters {
+        name: "instanceId"
+        label: "Cloud Spanner instance id"
+        help_text: "The instance id of the Cloud Spanner database that you want to import to."
+        regexes: "^[a-z0-9\\-]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "databaseId"
+        label: "Cloud Spanner database id"
+        help_text: "The database id of the Cloud Spanner database that you want to import into (must already exist, and with the destination tables created)."
+        regexes: "^[a-z_0-9\\-]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "importManifest"
+        label: "Text Import Manifest file"
+        help_text: "The GCS path and filename of the text import manifest file. ex: gs://mybucket/myfolder/mymanifest.json"
+        regexes: "^gs:\\/\\/[^\\n\\r]+$"
+        is_optional: false
+      }
+      parameters {
+        name: "columnDelimiter"
+        label: "Column delimiter of the data files"
+        help_text: "The column delimiter of the input text files"
+        is_optional: true
+      }
+      parameters {
+        name: "fieldQualifier"
+        label: "Field qualifier used by the source file"
+        help_text: "The field qualifier used by the source file. It should be used when character needs to be escaped"
+        is_optional: true
+      }
+      parameters {
+        name: "trailingDelimiter"
+        label: "If true, the lines has trailing delimiters"
+        help_text: "The flag indicating whether or not the input lines have trailing delimiters"
+        is_optional: true
+      }
+      parameters {
+        name: "escape"
+        label: "Escape character"
+        help_text: "The escape character"
+        is_optional: true
+      }
+      parameters {
+        name: "nullString"
+        label: "Null String"
+        help_text: "The string that represents the NULL value"
+        is_optional: true
+      }
+    }
+  }
+}
