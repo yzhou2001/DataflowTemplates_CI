@@ -1,0 +1,32 @@
+syntax = "proto2";
+
+package cloud.dataflow.templates.template_release;
+
+import "template_ui_metadata.proto";
+import "templates.proto";
+
+message TemplateReleaseCategories {
+  repeated TemplateReleaseCategory categories = 1;
+}
+
+message TemplateReleaseCategory {
+  optional cloud.dataflow.templates.template_release.TemplateCategoryMetadata
+      category = 2;
+  repeated TemplateReleaseInfo templates = 1;
+}
+
+// Describes the parameters for generating a template by running a java program.
+message TemplateReleaseInfo {
+  message Parameter {
+    optional string key = 1;
+    optional string value = 2;
+  }
+  optional string name = 1;
+  optional string display_name = 6;
+  optional string main_class = 2;
+  optional string beam_version_override = 7 [default = "live"];
+  // If hidden, the template will not be released unless requested.
+  optional bool hidden = 5 [default = true];
+  repeated Parameter parameters = 3;
+  optional TemplateMetadata metadata = 4;
+}

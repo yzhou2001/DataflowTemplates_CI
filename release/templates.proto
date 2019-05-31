@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package cloud.dataflow.templates.template_release;
+
+// Metadata for a specific parameter.
+message ParameterMetadata {
+
+  // Required. The name of the parameter.
+  string name = 1;
+
+  // Required. The label to display for the parameter.
+  string label = 2;
+
+  // Required. The help text to display for the parameter.
+  string help_text = 3;
+
+  // Optional. Whether the parameter is optional. Defaults to false.
+  bool is_optional = 4;
+
+  // Optional. Regexes that the parameter must match.
+  repeated string regexes = 5;
+}
+
+// Metadata describing a template.
+message TemplateMetadata {
+
+  // Required. The name of the template.
+  string name = 1;
+
+  // Optional. A description of the template.
+  string description = 2;
+
+  // The parameters for the template.
+  repeated ParameterMetadata parameters = 3;
+}

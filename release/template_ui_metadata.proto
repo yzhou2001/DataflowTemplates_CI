@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+package cloud.dataflow.templates.template_release;
+
+// Describes the category structure of templates in the "Create Job From
+// Template" UI.
+message TemplateCategories {
+  repeated TemplateCategory categories = 1;
+}
+
+message TemplateCategory {
+  optional TemplateCategoryMetadata category = 1;
+  repeated TemplateUIMetadata templates = 2;
+}
+
+message TemplateUIMetadata {
+  optional string name = 1;
+  optional string display_name = 2;
+}
+
+message TemplateCategoryMetadata {
+  optional string name = 1;
+  optional string display_name = 2;
+}
