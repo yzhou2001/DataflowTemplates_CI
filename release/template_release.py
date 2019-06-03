@@ -275,8 +275,8 @@ def stage_template(base_destination, template):
   try:
     ret = subprocess.run(
        cmd, timeout=TEMPLATE_GENERATION_TIMEOUT, env=new_env)
-  except subprocess.TimeoutExpired as timeout:
-    logging.error('Template execution timed out')
+  except Exception as e:
+    logging.error('Template execution threw exception %s.', str(e))
     return False
   if ret.returncode != 0:
    logging.error('Template execution failed with return code %s.', ret)
