@@ -10,9 +10,9 @@ addons:
     packages:
       - "python3-pip"
 
-before_install:
-  - pip3 install protobuf
-  - pip3 install tensorflow
+sudo: required
+  - sudo pip3 install protobuf
+  - sudo pip3 install tensorflow
 
 script:
   - mvn clean compile test
