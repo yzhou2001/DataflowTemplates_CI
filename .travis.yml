@@ -15,6 +15,6 @@ sudo: required
   - sudo pip3 install tensorflow
 
 script:
-  - mvn clean compile test
+  - mvn clean compile
   - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
   - release/install.sh
