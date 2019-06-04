@@ -4,6 +4,7 @@ jdk:
   - oraclejdk8
 
 install:
+  - sudo apt install python3-pip
   - pip3 install protobuf
   - pip3 install tensorflow
 
