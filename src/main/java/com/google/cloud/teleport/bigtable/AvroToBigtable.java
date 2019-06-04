@@ -18,7 +18,7 @@ package com.google.cloud.teleport.bigtable;
 
 import com.google.bigtable.v2.Mutation;
 import com.google.bigtable.v2.Mutation.SetCell;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList;
 import com.google.protobuf.ByteString;
 import java.nio.ByteBuffer;
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;

@@ -22,7 +22,7 @@ import com.google.cloud.spanner.DatabaseAdminClient;
 import com.google.cloud.spanner.Spanner;
 import com.google.cloud.spanner.SpannerException;
 import com.google.cloud.spanner.SpannerOptions;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Files;
+import com.google.common.io.Files;
 import com.google.protobuf.util.JsonFormat;
 import com.google.spanner.admin.database.v1.CreateDatabaseMetadata;
 import java.io.File;

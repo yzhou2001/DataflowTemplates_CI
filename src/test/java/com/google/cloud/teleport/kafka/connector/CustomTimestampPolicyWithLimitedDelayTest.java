@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.teleport.templates.DLPTextToBigQueryStreaming.CSVReader;
 import com.google.cloud.teleport.templates.DLPTextToBigQueryStreaming.TableRowProcessorDoFn;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Charsets;
+import com.google.common.base.Charsets;
 import com.google.privacy.dlp.v2.Table;
 import java.io.File;
 import java.io.IOException;

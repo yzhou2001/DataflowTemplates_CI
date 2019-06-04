@@ -15,7 +15,7 @@
  */
 package com.google.cloud.teleport.util;
 
-import org.apache.beam.vendor.guava.v20_0.com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects;
 import java.io.Serializable;
 import org.apache.beam.sdk.options.ValueProvider;
 import org.apache.beam.sdk.transforms.SerializableFunction;

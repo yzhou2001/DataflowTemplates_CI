@@ -26,7 +26,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.spanner.Struct;
 import com.google.cloud.spanner.Type;
 import com.google.cloud.teleport.spanner.ddl.Ddl;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericRecord;

@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 
 import com.google.cloud.teleport.templates.BulkDecompressor.Decompress;
 import com.google.cloud.teleport.util.TestUtils;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Files;
+import com.google.common.io.Files;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;

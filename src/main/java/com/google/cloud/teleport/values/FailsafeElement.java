@@ -17,7 +17,7 @@
 package com.google.cloud.teleport.values;
 
 import com.google.cloud.teleport.coders.FailsafeElementCoder;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 import org.apache.avro.reflect.Nullable;
 import org.apache.beam.sdk.coders.DefaultCoder;

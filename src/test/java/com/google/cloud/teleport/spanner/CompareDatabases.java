@@ -21,7 +21,7 @@ import com.google.cloud.spanner.Type;
 import com.google.cloud.teleport.spanner.ddl.Ddl;
 import com.google.cloud.teleport.spanner.ddl.IndexColumn;
 import com.google.cloud.teleport.spanner.ddl.Table;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Base64;
 import org.apache.beam.sdk.io.gcp.spanner.ReadOperation;

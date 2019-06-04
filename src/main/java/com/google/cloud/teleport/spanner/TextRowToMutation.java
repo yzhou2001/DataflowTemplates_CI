@@ -22,7 +22,7 @@ import com.google.cloud.spanner.Value;
 import com.google.cloud.teleport.spanner.TextImportProtos.ImportManifest.TableManifest;
 import com.google.cloud.teleport.spanner.ddl.Ddl;
 import com.google.cloud.teleport.spanner.ddl.Table;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Strings;
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;

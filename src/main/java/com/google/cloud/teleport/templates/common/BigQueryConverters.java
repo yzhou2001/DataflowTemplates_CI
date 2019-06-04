@@ -21,7 +21,7 @@ import com.google.api.services.bigquery.model.TableRow;
 import com.google.auto.value.AutoValue;
 import com.google.cloud.teleport.templates.common.DatastoreConverters.CheckNoKey;
 import com.google.cloud.teleport.values.FailsafeElement;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Throwables;
+import com.google.common.base.Throwables;
 import com.google.datastore.v1.Entity;
 import com.google.datastore.v1.Key;
 import com.google.datastore.v1.Key.PathElement;

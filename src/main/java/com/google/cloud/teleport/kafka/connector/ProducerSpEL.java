@@ -17,7 +17,7 @@
  */
 package com.google.cloud.teleport.kafka.connector;
 
-import static org.apache.beam.vendor.guava.v20_0.com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

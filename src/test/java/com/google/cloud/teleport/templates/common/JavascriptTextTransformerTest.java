@@ -29,8 +29,8 @@ import com.google.cloud.teleport.templates.common.JavascriptTextTransformer.Fail
 import com.google.cloud.teleport.templates.common.JavascriptTextTransformer.JavascriptRuntime;
 import com.google.cloud.teleport.templates.common.JavascriptTextTransformer.TransformTextViaJavascript;
 import com.google.cloud.teleport.values.FailsafeElement;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableMap;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Resources;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

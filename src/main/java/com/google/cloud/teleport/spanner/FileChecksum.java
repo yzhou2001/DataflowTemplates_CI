@@ -16,8 +16,8 @@
 
 package com.google.cloud.teleport.spanner;
 
-import org.apache.beam.vendor.guava.v20_0.com.google.common.hash.Hashing;
-import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Files;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
