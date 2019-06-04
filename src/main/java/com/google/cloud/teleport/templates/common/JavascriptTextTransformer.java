@@ -16,13 +16,13 @@
 
 package com.google.cloud.teleport.templates.common;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.beam.vendor.guava.v20_0.com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 import com.google.cloud.teleport.values.FailsafeElement;
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
-import com.google.common.io.CharStreams;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Strings;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Throwables;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.UncheckedIOException;

@@ -17,7 +17,7 @@
 package com.google.cloud.teleport.spanner;
 
 import com.google.cloud.spanner.Struct;
-import com.google.common.base.Strings;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Strings;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.regex.Pattern;

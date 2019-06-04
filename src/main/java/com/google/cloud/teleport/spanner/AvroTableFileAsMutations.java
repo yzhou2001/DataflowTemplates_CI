@@ -19,7 +19,7 @@ package com.google.cloud.teleport.spanner;
 import com.google.cloud.spanner.Mutation;
 import com.google.cloud.teleport.spanner.ddl.Ddl;
 import com.google.cloud.teleport.spanner.ddl.Table;
-import com.google.common.annotations.VisibleForTesting;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.util.Map;
 import org.apache.avro.generic.GenericRecord;

@@ -18,7 +18,7 @@ package com.google.cloud.teleport.spanner.ddl;
 
 import com.google.auto.value.AutoValue;
 import com.google.cloud.spanner.Type;
-import com.google.common.collect.ImmutableList;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.stream.Collectors;

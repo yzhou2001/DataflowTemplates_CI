@@ -23,7 +23,7 @@ import static com.google.cloud.teleport.bigtable.TestUtils.createAvroRow;
 import static com.google.cloud.teleport.bigtable.TestUtils.createBigtableRowMutations;
 
 import com.google.bigtable.v2.Mutation;
-import com.google.common.collect.ImmutableList;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
 import com.google.protobuf.ByteString;
 import java.util.List;
 import org.apache.beam.sdk.testing.PAssert;

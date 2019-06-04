@@ -17,7 +17,7 @@
  */
 package com.google.cloud.teleport.kafka.connector;
 
-import com.google.common.base.Objects;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.base.Objects;
 import java.io.Serializable;
 import java.util.Arrays;
 import javax.annotation.Nullable;

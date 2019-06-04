@@ -16,7 +16,7 @@
  */
 package com.google.cloud.teleport.kafka.connector;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.beam.vendor.guava.v20_0.com.google.common.base.Preconditions.checkArgument;
 
 import com.google.cloud.teleport.kafka.connector.TimestampPolicy.PartitionContext;
 import java.io.Serializable;

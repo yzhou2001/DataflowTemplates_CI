@@ -18,7 +18,7 @@ package com.google.cloud.teleport.templates;
 
 import com.google.cloud.teleport.templates.BulkCompressor.Compressor;
 import com.google.cloud.teleport.util.TestUtils;
-import com.google.common.collect.ImmutableList;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;

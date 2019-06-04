@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.teleport.coders.FailsafeElementCoder;
 import com.google.cloud.teleport.templates.KafkaToBigQuery.MessageToTableRow;
-import com.google.common.io.Resources;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Resources;
 import org.apache.beam.sdk.coders.CoderRegistry;
 import org.apache.beam.sdk.coders.KvCoder;
 import org.apache.beam.sdk.coders.StringUtf8Coder;

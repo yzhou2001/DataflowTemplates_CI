@@ -23,7 +23,7 @@ import static com.google.cloud.teleport.bigtable.TestUtils.createBigtableRow;
 import static com.google.cloud.teleport.bigtable.TestUtils.upsertBigtableCell;
 
 import com.google.bigtable.v2.Row;
-import com.google.common.collect.ImmutableList;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.apache.beam.sdk.testing.PAssert;
 import org.apache.beam.sdk.testing.TestPipeline;

@@ -16,7 +16,7 @@
 
 package com.google.cloud.teleport.spanner;
 
-import com.google.common.annotations.VisibleForTesting;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.annotations.VisibleForTesting;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import org.apache.beam.sdk.io.FileIO.ReadableFile;

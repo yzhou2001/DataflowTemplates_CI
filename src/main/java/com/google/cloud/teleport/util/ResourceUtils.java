@@ -16,7 +16,7 @@
 
 package com.google.cloud.teleport.util;
 
-import com.google.common.io.Resources;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.io.Resources;
 import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

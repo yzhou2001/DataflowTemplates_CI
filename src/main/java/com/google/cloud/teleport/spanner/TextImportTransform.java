@@ -23,8 +23,8 @@ import com.google.cloud.teleport.spanner.TextImportProtos.ImportManifest.TableMa
 import com.google.cloud.teleport.spanner.ddl.Column;
 import com.google.cloud.teleport.spanner.ddl.Ddl;
 import com.google.cloud.teleport.spanner.ddl.Table;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.HashMultimap;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.annotations.VisibleForTesting;
+import org.apache.beam.vendor.guava.v20_0.com.google.common.collect.HashMultimap;
 import com.google.protobuf.util.JsonFormat;
 import java.io.File;
 import java.io.IOException;
