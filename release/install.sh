@@ -9,8 +9,8 @@ elif [ -f $OUTDIR ]; then
   rm -f $OUTDIR
 fi
 
-cd $DIR
 # Protocol buffer compilation
+cd $DIR
 mkdir generated
 protoc -I=$DIR --python_out=$OUTDIR $DIR/template_release_info.proto $DIR/template_ui_metadata.proto $DIR/templates.proto
 
