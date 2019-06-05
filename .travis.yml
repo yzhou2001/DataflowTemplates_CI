@@ -14,9 +14,9 @@ language: python
 sudo: required
   - sudo -E pip3 install protobuf
   - sudo -E pip3 install tensorflow
-  - release/protoc_install.sh
 
 script:
   - mvn clean compile test
   - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
+  - release/protoc_install.sh
   - release/install.sh
