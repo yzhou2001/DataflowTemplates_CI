@@ -3,18 +3,6 @@ language: java
 jdk:
   - oraclejdk8
 
-sudo: false
-dist: "trusty"
-addons:
-  apt:
-    packages:
-      - "python3-pip"
-
-language: python
-sudo: required
-  - sudo -E pip3 install protobuf
-  - sudo -E pip3 install tensorflow
-
 script:
   - mvn clean compile test
   - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
