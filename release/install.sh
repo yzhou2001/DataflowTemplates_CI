@@ -1,4 +1,6 @@
 #!/bin/bash
+set -ev
+
 DIR=`dirname "$0"`
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 

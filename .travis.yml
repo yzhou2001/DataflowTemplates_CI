@@ -10,7 +10,7 @@ addons:
     packages:
       - "python3-pip"
 
-language: python
+install:
 sudo: required
   - sudo -E pip3 install protobuf
   - sudo -E pip3 install tensorflow
