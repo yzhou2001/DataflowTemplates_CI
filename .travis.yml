@@ -10,9 +10,10 @@ addons:
     packages:
       - "python3-pip"
 
+language: python
 sudo: required
-  - sudo pip3 install protobuf
-  - sudo pip3 install tensorflow
+  - sudo -E pip3 install protobuf
+  - sudo -E pip3 install tensorflow
 
 script:
   - mvn clean package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
