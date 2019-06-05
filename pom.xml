@@ -545,6 +545,7 @@
           <failOnViolation>true</failOnViolation>
           <includeResources>false</includeResources>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <skip>true</skip>
         </configuration>
         <executions>
           <!--
