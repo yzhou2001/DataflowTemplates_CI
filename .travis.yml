@@ -8,6 +8,6 @@ install:
   - pip3 install tensorflow
 
 script:
-  - mvn clean compile
+  - mvn clean compile test
   - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
   - release/install.sh
