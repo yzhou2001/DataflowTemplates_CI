@@ -3,6 +3,12 @@ language: java
 jdk:
   - oraclejdk8
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install python3-pip
+  - sudo pip3 install protobuf
+  - sudo pip3 install tensorflow
+
 script:
   - mvn clean compile test
   - mvn package -Dcheckstyle.skip=true -DskipTests=true -Dmaven.javadoc.skip=true 
