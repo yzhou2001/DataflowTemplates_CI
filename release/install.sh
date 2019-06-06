@@ -1,4 +1,6 @@
 #!/bin/bash
+set -ev
+
 DIR=`dirname "$0"`
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -9,8 +11,8 @@ elif [ -f $OUTDIR ]; then
   rm -f $OUTDIR
 fi
 
-cd $DIR
 # Protocol buffer compilation
+cd $DIR
 mkdir generated
 protoc -I=$DIR --python_out=$OUTDIR $DIR/template_release_info.proto $DIR/template_ui_metadata.proto $DIR/templates.proto
 
