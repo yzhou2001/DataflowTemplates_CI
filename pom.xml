@@ -74,7 +74,7 @@
     <grpc.version>1.13.1</grpc.version>
     <google-storage-api.version>v1-rev20181013-1.27.0</google-storage-api.version>
     <mvn-target-dir>${basedir}/target</mvn-target-dir>
-    <derby.version>10.12.1.1</derby.version>
+    <derby.version>10.14.2.0</derby.version>
     <commons-pool2.version>2.4.2</commons-pool2.version>
     <commons-dbcp2.version>2.1.1</commons-dbcp2.version>
     <kafka.clients.version>1.0.0</kafka.clients.version>
